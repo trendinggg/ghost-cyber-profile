@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowDown, Download, FileText, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import heroImage from '@/assets/hero-cyber.jpg';
 
 const Hero = () => {
   useScrollAnimation();
+  const [imageLoaded, setImageLoaded] = useState(false);
   
   const scrollToContact = () => {
     const element = document.getElementById('contact');
@@ -25,10 +27,17 @@ const Hero = () => {
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-hero">
+        {!imageLoaded && (
+          <Skeleton className="w-full h-full opacity-20" />
+        )}
         <img 
           src={heroImage} 
           alt="Cybersecurity Background" 
-          className="w-full h-full object-cover opacity-30 mix-blend-overlay"
+          className={`w-full h-full object-cover opacity-30 mix-blend-overlay transition-opacity duration-500 ${
+            imageLoaded ? 'opacity-30' : 'opacity-0'
+          }`}
+          onLoad={() => setImageLoaded(true)}
+          loading="eager"
         />
       </div>
       
