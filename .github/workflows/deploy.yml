@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  id-token: write
+  contents: write
+  pages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages  # ✅ required for GitHub Pages deployment
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install
+      - run: npm run build
+      - name: Deploy
+        uses: skywarth/vite-github-pages-deployer@v1.5.0
+        with:
+          public_base_path: /ghost-cyber-profile/
+          build_path: dist
+          install_phase_node_env: dev
+          build_phase_node_env: production
+          package_manager: npm
+          working_path: ./
