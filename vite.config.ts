@@ -6,10 +6,22 @@ import { componentTagger } from "lovable-tagger";
 // Detect deployment platform
 const isVercel = process.env.VERCEL === '1';
 const isGitHubPages = process.env.GITHUB_PAGES === '1' || process.env.NODE_ENV === 'production' && !isVercel;
+const isNetlify = process.env.NETLIFY === '1';
+
+// Determine base path based on platform
+const getBasePath = () => {
+  if (isVercel || isNetlify) {
+    return '/';
+  }
+  if (isGitHubPages || process.env.NODE_ENV === 'production') {
+    return '/ghost-cyber-profile/';
+  }
+  return '/';
+};
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: isVercel ? '/' : (mode === 'production' ? '/ghost-cyber-profile/' : '/'),
+  base: getBasePath(),
   server: {
     host: "::",
     port: 8080,
