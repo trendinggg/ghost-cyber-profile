@@ -3,9 +3,13 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
+// Detect deployment platform
+const isVercel = process.env.VERCEL === '1';
+const isGitHubPages = process.env.GITHUB_PAGES === '1' || process.env.NODE_ENV === 'production' && !isVercel;
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/ghost-cyber-profile/' : '/', // Only use base path for production
+  base: isVercel ? '/' : (mode === 'production' ? '/ghost-cyber-profile/' : '/'),
   server: {
     host: "::",
     port: 8080,

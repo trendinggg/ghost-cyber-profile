@@ -7,18 +7,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLoader from "@/components/AppLoader";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { getBasePath } from "@/lib/env";
 
 const queryClient = new QueryClient();
-
-// Determine basename based on environment
-const basename = import.meta.env.PROD ? '/ghost-cyber-profile' : '/';
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename={basename}>
+      <BrowserRouter basename={getBasePath()}>
         <Suspense fallback={<AppLoader />}>
           <Routes>
             <Route path="/" element={<Index />} />
