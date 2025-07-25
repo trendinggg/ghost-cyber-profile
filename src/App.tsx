@@ -10,12 +10,15 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Determine basename based on environment
+const basename = import.meta.env.PROD ? '/ghost-cyber-profile' : '/';
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Suspense fallback={<AppLoader />}>
           <Routes>
             <Route path="/" element={<Index />} />
